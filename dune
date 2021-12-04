@@ -1,3 +1,3 @@
 (executable
- (name day4_part2)
+ (name day4)
  (libraries core))

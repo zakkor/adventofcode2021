@@ -28,13 +28,21 @@ let is_bingo (b : board) : bool =
   in
   has_winning_row b || has_winning_row (Base.List.transpose_exn b)
 
+let rec first_winning_board numbers boards n : board * int =
+  match List.find_opt is_bingo boards with
+  | Some b -> (b, n)
+  | None -> (
+      match numbers with
+      | [] -> (List.hd boards, 0)
+      | n :: tl -> first_winning_board tl (draw_number boards n) n)
+
 let rec last_winning_board numbers boards n : board * int =
   match List.find_opt is_bingo boards with
   (* If there is a winning board *)
   | Some b ->
       (* If it is the last board, return it *)
       if List.length boards = 1 then (b, n)
-      (* Otherwise remove it from the board list and keep searching for winning boards *)
+        (* Otherwise remove it from the board list and keep searching for winning boards *)
       else last_winning_board numbers (List.filter (fun bb -> bb != b) boards) n
   (* Keep drawing numbers and trying to find a winning board *)
   | None -> (
@@ -42,16 +50,19 @@ let rec last_winning_board numbers boards n : board * int =
       | [] -> (List.hd boards, 0)
       | n :: tl -> last_winning_board tl (draw_number boards n) n)
 
-let winning_board, winning_number = last_winning_board numbers boards 0
+let calculate_score (board, winning_number) =
+  let unmarked_sum =
+    List.flatten board
+    |> List.map (fun (bn, marked) -> if not marked then bn else 0)
+    |> List.fold_left ( + ) 0
+  in
+  unmarked_sum * winning_number
 
-let unmarked_sum =
-  List.flatten winning_board
-  |> List.map (fun (bn, marked) -> if not marked then bn else 0)
-  |> List.fold_left ( + ) 0
+(* Part 1: *)
+let () = printf "part 1: %d\n" (calculate_score (first_winning_board numbers boards 0))
 
-let solution = unmarked_sum * winning_number
-
-let () = printf "%d\n" solution
+(* Part 2: *)
+let () = printf "part 2: %d\n" (calculate_score (last_winning_board numbers boards 0))
 
 (* Printing utils *)
 let print_board (b : board) =
