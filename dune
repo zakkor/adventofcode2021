@@ -1,3 +1,8 @@
 (executable
- (name day4)
- (libraries core))
+ (name day5)
+ (libraries core str))
+
+(env
+ (dev
+  (flags
+   (:standard -warn-error -A))))
