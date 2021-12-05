@@ -4,6 +4,8 @@ let input_lines = Core.In_channel.read_lines "./day5.input"
 
 type point = { x : int; y : int }
 
+let point_of_pair (x, y) = { x; y }
+
 type line = { start : point; end_ : point }
 
 let parse_point s =
@@ -55,11 +57,11 @@ let decompose_line (line : line) : point list =
   let yl = line.start.y -- line.end_.y in
   let xl = pad_right xl yl in
   let yl = pad_right yl xl in
-  Base.List.zip_exn xl yl |> List.map (fun (x, y) -> { x; y })
+  Base.List.zip_exn xl yl |> List.map point_of_pair
 
 let draw_line (map : int array array) (line : line) =
   let points = decompose_line line in
-  List.iter (fun { x; y } -> map.(x).(y) <- map.(x).(y) + 1) points
+  points |> List.iter (fun { x; y } -> map.(x).(y) <- map.(x).(y) + 1)
 
 let filter_straight =
   List.filter (fun l -> l.start.x = l.end_.x || l.start.y = l.end_.y)
