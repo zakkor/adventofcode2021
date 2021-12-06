@@ -1,8 +1,9 @@
 (executable
- (name day5)
+ (name day6_part2)
+ (modes byte exe)
  (libraries core str))
 
 (env
  (dev
   (flags
-   (:standard -warn-error -A))))
+   (:standard -warn-error -A -g))))
