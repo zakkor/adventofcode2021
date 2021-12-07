@@ -1,5 +1,5 @@
 (executable
- (name day6_part2)
+ (name day7)
  (modes byte exe)
  (libraries core str))
 
