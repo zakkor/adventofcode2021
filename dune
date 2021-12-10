@@ -1,6 +1,7 @@
 (executable
- (name day7)
+ (name day8)
  (modes byte exe)
+ (preprocess (pps ppx_deriving.show ppx_deriving.ord))
  (libraries core str))
 
 (env
