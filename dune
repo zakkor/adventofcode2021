@@ -1,5 +1,5 @@
 (executable
- (name day8)
+ (name day10)
  (modes byte exe)
  (preprocess (pps ppx_deriving.show ppx_deriving.ord))
  (libraries core str))
