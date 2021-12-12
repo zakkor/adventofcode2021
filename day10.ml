@@ -39,7 +39,6 @@ let illegal_scores, incomplete_scores =
       | None ->
           let incomplete_score =
             if Stack.length stack > 0 then
-              (* Not illegal, just incomplete *)
               Stack.fold stack ~init:0 ~f:(fun acc delim ->
                   let delim = matching_closing_delim delim in
                   (acc * 5)
@@ -59,7 +58,7 @@ let sum_illegal_scores = List.fold illegal_scores ~init:0 ~f:( + )
 let () = printf "part 1: %d\n" sum_illegal_scores
 
 let middle_incomplete_score =
-  List.filter incomplete_scores ~f:(fun s -> s > 0) |> List.sort ~compare
-  |> fun l -> List.nth_exn l (List.length incomplete_scores / 2)
+  List.sort incomplete_scores ~compare |> fun l ->
+  List.nth_exn l (List.length incomplete_scores / 2)
 
 let () = printf "part 2: %d\n" middle_incomplete_score
